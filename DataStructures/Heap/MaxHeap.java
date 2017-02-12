@@ -67,6 +67,26 @@ public class MaxHeap
 		return toReturn;
 	}
 
+	public void increaseKey(int keyIndex ,double newKeyValue)
+	{
+		arrayList.set(keyIndex, newKeyValue);
+		int currentIndex = keyIndex;
+
+		while( currentIndex > 1 )
+		{
+			if( arrayList.get(currentIndex) > arrayList.get( currentIndex/2 ) )
+			{
+				swap(currentIndex, currentIndex/2 );
+				currentIndex = currentIndex / 2;
+			}
+
+			else
+			{
+				return;
+			}
+		}
+	}
+
 	public ArrayList<Double> getArrayList()
 	{
 		return arrayList;
