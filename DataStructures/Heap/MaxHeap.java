@@ -60,7 +60,7 @@ public class MaxHeap
 	{
 		double toReturn = arrayList.get(1);
 
-		swap( 1, arrayList.size()-1 );
+		arrayList.set( 1, arrayList.get( arrayList.size()-1 ) );
 		arrayList.subList( arrayList.size()-1, arrayList.size() ).clear();
 		heapify(1);
 
