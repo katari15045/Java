@@ -93,6 +93,12 @@ public class MaxHeap
 		heapify(keyIndex);
 	}
 
+	public void insertKey(double newKeyValue)
+	{
+		arrayList.add( arrayList.size(),newKeyValue-1 );
+		increaseKey( arrayList.size()-1, newKeyValue );
+	}
+
 	public ArrayList<Double> getArrayList()
 	{
 		return arrayList;
