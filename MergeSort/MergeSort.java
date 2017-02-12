@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class MergeSort
 {
-	private ArrayList<Integer>  arrayList;
+	private ArrayList<Double>  arrayList;
 
-	public MergeSort( ArrayList<Integer> inpArrayList )
+	public MergeSort( ArrayList<Double> inpArrayList )
 	{
 		arrayList = inpArrayList;
 	}
@@ -30,10 +30,10 @@ public class MergeSort
 
 	private void merge(int startIndex, int middleIndex, int endIndex)
 	{
-		ArrayList<Integer> mergedArray = new ArrayList<Integer>( (endIndex-startIndex) + 1 );
+		ArrayList<Double> mergedArray = new ArrayList<Double>( (endIndex-startIndex) + 1 );
 		int count = 0, targetCount = 0, countTwo = 0;
 		int pointerOne, pointerTwo;
-		int firstElement = 0, secondElement = 0;
+		double firstElement = 0, secondElement = 0;
 
 		pointerOne = startIndex;
 		pointerTwo = middleIndex + 1;
@@ -95,7 +95,7 @@ public class MergeSort
 
 	}
 
-	public ArrayList<Integer> getSortedArray()
+	public ArrayList<Double> getSortedArray()
 	{
 		return arrayList;
 	}
