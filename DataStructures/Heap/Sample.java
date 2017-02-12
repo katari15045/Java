@@ -20,8 +20,8 @@ public class Sample
 		maxHeap = new MaxHeap(arrayList);
 		maxHeap.start();
 		System.out.println( "After Max-Heap : " + maxHeap.getArrayList() );
-		maxHeap.increaseKey(5,99);
-		System.out.println("After increaseKey : " + maxHeap.getArrayList() );
+		maxHeap.decreaseKey(1,1);
+		System.out.println("After decreaseKey : " + maxHeap.getArrayList() );
 	}
 
 	private static void takeUserInput()

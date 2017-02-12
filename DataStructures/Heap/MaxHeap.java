@@ -87,6 +87,12 @@ public class MaxHeap
 		}
 	}
 
+	public void decreaseKey(int keyIndex, double newKeyValue)
+	{
+		arrayList.set( keyIndex,newKeyValue );
+		heapify(keyIndex);
+	}
+
 	public ArrayList<Double> getArrayList()
 	{
 		return arrayList;
