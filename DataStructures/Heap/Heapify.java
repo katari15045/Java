@@ -6,10 +6,9 @@ public class Heapify
 	private ArrayList<Double> arrayList;
 	private int startIndex;
 
-	public Heapify(ArrayList<Double> inpArrayList, int inpStartIndex)
+	public Heapify(ArrayList<Double> inpArrayList)
 	{
 		arrayList = inpArrayList;
-		startIndex = inpStartIndex;
 	}
 
 	public void start()
