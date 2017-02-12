@@ -16,19 +16,22 @@ public class Sample
 		length = scanner.nextInt();
 
 		takeUserInput();
+		System.out.println("Before Heapify : " + arrayList);
 
-		heapify = new Heapify(arrayList);
+		heapify = new Heapify(arrayList,2);
 		heapify.start();
+		System.out.println( "After Heapify : " + heapify.getArrayList() );
 	}
 
 	private static void takeUserInput()
 	{
-		arrayList = new ArrayList<Double>(length);
-		int count = 0;
+		arrayList = new ArrayList<Double>(length+1);
+		int count = 1;
 		double inpDouble;
 		System.out.print("Elements : ");
+		arrayList.add(0,0.0);
 
-		while( count < length )
+		while( count <= length )
 		{
 			inpDouble = scanner.nextDouble();
 			arrayList.add(count,inpDouble);
