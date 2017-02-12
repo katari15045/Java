@@ -11,6 +11,11 @@ public class MaxHeap
 
 	public void start()
 	{
+		buildHeap();
+	}
+
+	public void buildHeap()
+	{
 		int currentIndex = ( arrayList.size()-1 ) / 2;
 
 		while( currentIndex >= 1 )
