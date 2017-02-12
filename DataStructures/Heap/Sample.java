@@ -20,6 +20,8 @@ public class Sample
 		maxHeap = new MaxHeap(arrayList);
 		maxHeap.start();
 		System.out.println( "After Max-Heap : " + maxHeap.getArrayList() );
+		System.out.println("Max Element : " + maxHeap.extractMax() );
+		System.out.println("After extractMax : " + maxHeap.getArrayList() );
 	}
 
 	private static void takeUserInput()

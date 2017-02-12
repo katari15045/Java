@@ -37,7 +37,7 @@ public class MaxHeap
 			largestElementIndex = parentIndex;
 		}
 
-		if( rightChildIndex <= arrayList.size() && arrayList.get(rightChildIndex) > arrayList.get(largestElementIndex) )
+		if( rightChildIndex < arrayList.size() && arrayList.get(rightChildIndex) > arrayList.get(largestElementIndex) )
 		{
 			largestElementIndex = rightChildIndex;
 		}
@@ -47,7 +47,6 @@ public class MaxHeap
 			swap(parentIndex,largestElementIndex);
 			heapify(largestElementIndex);
 		}
-
 	}
 
 	private void swap(int parentIndex, int largestElementIndex)
@@ -55,6 +54,17 @@ public class MaxHeap
 		double temp = arrayList.get(parentIndex);
 		arrayList.set( parentIndex, arrayList.get(largestElementIndex) );
 		arrayList.set( largestElementIndex, temp );
+	}
+
+	public double extractMax()
+	{
+		double toReturn = arrayList.get(1);
+
+		swap( 1, arrayList.size()-1 );
+		arrayList.subList( arrayList.size()-1, arrayList.size() ).clear();
+		heapify(1);
+
+		return toReturn;
 	}
 
 	public ArrayList<Double> getArrayList()
