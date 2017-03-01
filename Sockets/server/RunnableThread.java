@@ -16,6 +16,9 @@ public class RunnableThread implements Runnable
 	private DataInputStream dataInputStream;
 	private DataOutputStream dataOutputStream;
 
+	private String username;
+	private String password;
+
 
 	public RunnableThread(HashMap<String,String> inpHashMap, int inpPortNumber)
 	{
@@ -36,8 +39,29 @@ public class RunnableThread implements Runnable
 				socket = serverSocket.accept();
 				System.out.println("Client Connected");
 				dataInputStream = new DataInputStream( socket.getInputStream() );
-				System.out.println( "Username -> " + dataInputStream.readUTF() );
-				System.out.println( "Password -> " + dataInputStream.readUTF() );
+				username = dataInputStream.readUTF();
+				password = dataInputStream.readUTF();
+				System.out.println( "Username -> " + username );
+				System.out.println( "Password -> " + password );
+
+				if( hashMap.containsKey(username) )
+				{
+					if( hashMap.get(username).equals(password) )
+					{
+						System.out.println("Credentials verified!");
+					}
+
+					else
+					{
+						System.out.println("Invalid Credentials!");
+					}
+				}
+
+				else
+				{
+					System.out.println("No such username!");
+				}
+
 				dataInputStream.close();
 				socket.close();
 				serverSocket.close();

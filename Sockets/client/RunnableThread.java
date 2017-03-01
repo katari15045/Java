@@ -34,6 +34,7 @@ public class RunnableThread implements Runnable
 			dataOutputStream = new DataOutputStream( socket.getOutputStream() );
 			dataOutputStream.writeUTF(userName);
 			dataOutputStream.writeUTF(password);
+
 			dataOutputStream.close();
 			socket.close();
 		}
