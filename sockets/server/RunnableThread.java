@@ -35,12 +35,10 @@ public class RunnableThread implements Runnable
 		{
 			try
 			{
-				serverSocket = new ServerSocket(portNumber);
-				System.out.println("Waiting for client");
-				socket = serverSocket.accept();
-				System.out.println("Client Connected");
+				connectToClient();
 				receiveDataFromClient();
 				verifyCredentials();
+				sendDataToClient();
 				closeConnection();
 			}
 
@@ -49,6 +47,14 @@ public class RunnableThread implements Runnable
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void connectToClient() throws IOException
+	{
+		serverSocket = new ServerSocket(portNumber);
+		System.out.printf("\nWaiting for client on port " + serverSocket.getLocalPort() + "...\n\n");
+		socket = serverSocket.accept();
+		System.out.println("Client -> " + socket.getInetAddress() + ":" + socket.getPort() +  " Connected");
 	}
 
 	private void receiveDataFromClient() throws IOException
@@ -84,10 +90,18 @@ public class RunnableThread implements Runnable
 		System.out.println(output);
 	}
 
+	private void sendDataToClient() throws IOException
+	{
+		dataOutputStream = new DataOutputStream( socket.getOutputStream() );
+		dataOutputStream.writeUTF(output);
+	}
+
 	private void closeConnection() throws IOException
 	{
 		dataInputStream.close();
 		socket.close();
 		serverSocket.close();
+
+		System.out.println("Client Disconnected!");
 	}
 }

@@ -7,7 +7,7 @@ public class Client
 	private static String password;
 
 	private static String serverIPAddress;
-	private static int portNumber;
+	private static int serverPort;
 
 	private static Thread thread;
 	private static RunnableThread runnableThread;
@@ -24,12 +24,12 @@ public class Client
 	private static void initializeSocketDetails()
 	{
 		serverIPAddress = "localhost";
-		portNumber = 6969;
+		serverPort = 6969;
 	}
 
 	private static void initializeThread()
 	{
-		runnableThread = new RunnableThread(serverIPAddress, portNumber, username, password);
+		runnableThread = new RunnableThread(serverIPAddress, serverPort, username, password);
 		thread = new Thread(runnableThread);
 	}
 

@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class TCPServer
+public class Server
 {
 	private static HashMap<String,String> hashmap;
 	private static int portNumber;
