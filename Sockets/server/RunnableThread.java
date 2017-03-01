@@ -18,6 +18,7 @@ public class RunnableThread implements Runnable
 
 	private String username;
 	private String password;
+	private String output;
 
 
 	public RunnableThread(HashMap<String,String> inpHashMap, int inpPortNumber)
@@ -38,33 +39,9 @@ public class RunnableThread implements Runnable
 				System.out.println("Waiting for client");
 				socket = serverSocket.accept();
 				System.out.println("Client Connected");
-				dataInputStream = new DataInputStream( socket.getInputStream() );
-				username = dataInputStream.readUTF();
-				password = dataInputStream.readUTF();
-				System.out.println( "Username -> " + username );
-				System.out.println( "Password -> " + password );
-
-				if( hashMap.containsKey(username) )
-				{
-					if( hashMap.get(username).equals(password) )
-					{
-						System.out.println("Credentials verified!");
-					}
-
-					else
-					{
-						System.out.println("Invalid Credentials!");
-					}
-				}
-
-				else
-				{
-					System.out.println("No such username!");
-				}
-
-				dataInputStream.close();
-				socket.close();
-				serverSocket.close();
+				receiveDataFromClient();
+				verifyCredentials();
+				closeConnection();
 			}
 
 			catch(IOException e)
@@ -72,5 +49,45 @@ public class RunnableThread implements Runnable
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void receiveDataFromClient() throws IOException
+	{
+		dataInputStream = new DataInputStream( socket.getInputStream() );
+
+		username = dataInputStream.readUTF();
+		password = dataInputStream.readUTF();
+		System.out.println( "Username -> " + username );
+		System.out.println( "Password -> " + password );
+	}
+
+	private void verifyCredentials()
+	{
+		if( hashMap.containsKey(username) )
+		{
+			if( hashMap.get(username).equals(password) )
+			{
+				output = "Credentials verified!";
+			}
+
+			else
+			{
+				output = "Invalid Credentials!";
+			}
+		}
+
+		else
+		{
+			output = "No such username!";
+		}
+
+		System.out.println(output);
+	}
+
+	private void closeConnection() throws IOException
+	{
+		dataInputStream.close();
+		socket.close();
+		serverSocket.close();
 	}
 }
