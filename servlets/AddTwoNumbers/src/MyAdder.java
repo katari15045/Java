@@ -17,7 +17,7 @@ public class MyAdder extends HttpServlet
 	private int sum;
 	private PrintWriter printWriter;
 	
-	public void service(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	{
 		firstNumber = Integer.parseInt( request.getParameter("firstNumber") );
 		secondNumber = Integer.parseInt( request.getParameter("secondNumber") );
@@ -33,5 +33,10 @@ public class MyAdder extends HttpServlet
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	{
+		doPost(request, response);
 	}
 }
