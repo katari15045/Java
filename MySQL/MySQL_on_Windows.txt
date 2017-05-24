@@ -1,0 +1,18 @@
+
+Installing
+----------
+1. Download MySQL installer(MSI) and while installing uncheck "start MySQL on startup"
+
+
+Opening
+------
+1. Open Command prompt and type > net start mysql
+2. > cd "C:\Program Files\MySQL\MySQL Server 5.7\bin"
+3. mysql -u root -p
+
+Configuring
+-----------
+1. > select user, host from mysql.user;
+2. > create user 'test_user'@'%' identified by 'Test_user9977';
+3. > show grants for 'test_user'@'%';
+4. > grant all privileges on 'test_db.*' to 'test_user'@'%';
