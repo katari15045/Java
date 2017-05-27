@@ -13,6 +13,5 @@
 		<input type="radio" name="chris" value="radioUpdate" > Update <br>	
 		<input type="submit" value="Send" >
 	</form>
-	<% System.out.println("Last line of home.jsp"); %>
 </body>
 </html>

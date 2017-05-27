@@ -1,6 +1,7 @@
 package com.github.katari15045;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,25 +19,28 @@ public class DatabaseServlet extends HttpServlet
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		System.out.println("Inside servlet");
 		Database database = new Database();
 		String query = request.getParameter("query");
 		String radioClicked = request.getParameter("chris");
 		String resultString = null;
+		PreparedStatement preparedStatement;
 		
 		try 
 		{
-			database.makeConnection();			
+			database.makeConnection();	
+			preparedStatement = database.getConnection().prepareStatement(query); // Use '?' if possible to avoid SQL injections
 			
 			if( radioClicked.equals("radioQuery") )
 			{
-				ResultSet resultSet = database.executeQuery(query);
+				ResultSet resultSet = database.executeQuery(preparedStatement);
 				resultString = storeResultSet(resultSet);
 				System.out.println(resultString);
 			}
 			
 			else if( radioClicked.equals("radioUpdate") )
 			{
-				database.executeUpdate(query);
+				database.executeUpdate(preparedStatement);
 				resultString = "Updated!!!";
 			}
 			

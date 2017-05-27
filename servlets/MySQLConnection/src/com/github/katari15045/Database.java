@@ -2,6 +2,7 @@ package com.github.katari15045;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,15 +30,15 @@ public class Database
 		statement = connection.createStatement();
 	}
 	
-	public ResultSet executeQuery(String inpQuery) throws SQLException
+	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException
 	{
-		ResultSet resultSet = statement.executeQuery(inpQuery);
+		ResultSet resultSet = preparedStatement.executeQuery();
 		return resultSet;
 	}
 	
-	public void executeUpdate(String inpQuery) throws SQLException
+	public void executeUpdate(PreparedStatement preparedStatement) throws SQLException
 	{
-		statement.executeUpdate(inpQuery);
+		preparedStatement.executeUpdate();
 	}
 	
 	public void closeConnection() throws SQLException
@@ -76,6 +77,11 @@ public class Database
 	public void setDatabasePassword(String databasePassword) 
 	{
 		this.databasePassword = databasePassword;
+	}
+	
+	public Connection getConnection()
+	{
+		return connection;
 	}
 	
 }
