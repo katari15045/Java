@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.jdbc.ResultSetMetaData;
+
 @WebServlet("/DatabaseServlet")
 public class DatabaseServlet extends HttpServlet 
 {
@@ -19,7 +21,6 @@ public class DatabaseServlet extends HttpServlet
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		System.out.println("Inside servlet");
 		Database database = new Database();
 		String query = request.getParameter("query");
 		String radioClicked = request.getParameter("chris");
@@ -59,11 +60,22 @@ public class DatabaseServlet extends HttpServlet
 	private String storeResultSet(ResultSet resultSet) throws SQLException
 	{
 		StringBuilder stringBuilder = new StringBuilder();
+		ResultSetMetaData resultSetMetaData = (ResultSetMetaData) resultSet.getMetaData();
+		int totalCols = resultSetMetaData.getColumnCount();
+		int currentColumn;
 		
 		while( resultSet.next() )
 		{
-			stringBuilder.append( resultSet.getString(1) ).append(" ");
-			stringBuilder.append( Integer.toString( resultSet.getInt(2) ) ).append("<br>");
+			currentColumn = 1;
+			
+			while( currentColumn <= totalCols )
+			{
+				System.out.println( resultSet.getString(currentColumn) + " " );
+				stringBuilder.append( resultSet.getString(currentColumn) ).append("|");
+				currentColumn = currentColumn + 1;
+			}
+			
+			stringBuilder.append("<br>");
 		}
 		
 		return stringBuilder.toString();
