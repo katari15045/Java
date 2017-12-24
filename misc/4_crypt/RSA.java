@@ -1,5 +1,13 @@
 // Tutorial -> https://www.javamex.com/tutorials/cryptography/rsa_encryption.shtml
+//	    -> To get public key from a file : https://stackoverflow.com/questions/18757114/java-security-rsa-public-key-private-key-code-issue
 
+import java.security.PublicKey;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.BufferedInputStream;
+import java.math.BigInteger;
+import java.security.interfaces.RSAPublicKey;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyFactory;
@@ -15,10 +23,52 @@ public class RSA
 {
 	private static KeyPair keyPair;
 
-	public static void main(String[] args)
+	public static void start()
 	{
 		keyPair = getKeyPair();
 		storeKeys(keyPair);
+		getPublicKey("public.key");
+	}
+
+	public static PublicKey getPublicKey(String fileName)
+	{
+		InputStream inputStream = null;
+		ObjectInputStream oin = null;	
+		BigInteger modulus = null;
+		BigInteger exponent = null;
+		KeyFactory factory = null;
+		PublicKey publicKey = null;	
+
+		try
+		{
+			inputStream = new FileInputStream(fileName);
+			oin = new ObjectInputStream( new BufferedInputStream(inputStream) );
+					
+			modulus = (BigInteger)oin.readObject();
+			exponent = (BigInteger)oin.readObject();
+			factory = KeyFactory.getInstance("RSA");
+			publicKey = factory.generatePublic( new RSAPublicKeySpec(modulus, exponent) );
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		finally
+		{
+			try
+			{	
+				oin.close();
+			}
+
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		return publicKey;
 	}
 
 	private static KeyPair getKeyPair()

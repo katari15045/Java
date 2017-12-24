@@ -41,7 +41,7 @@ public class Email
 	private static DataSource dataSource;
 	private static Multipart multiPart;
 
-	public static void send(String toEmail, String subject, String body)
+	public static void send(String toEmail, String subject, String body, String fileName)
 	{
 		Email.toEmail = toEmail;
 		Email.subject = subject;
@@ -50,7 +50,6 @@ public class Email
 		Email.password = "bear_grylls_9977";
 		Email.host = "smtp.gmail.com";
 		port = "587";
-		fileName = "pic.jpg";
 
 		properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
