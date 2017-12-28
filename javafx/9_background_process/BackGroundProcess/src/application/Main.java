@@ -19,6 +19,7 @@ public class Main extends Application
 	private Scene scene = null;
 	
 	private ProgressIndicator progressIndicator = null;
+	private Label label = null;
 	private Button button = null;
 	
 	private BackgroundThread backgroundThread = null;
@@ -29,6 +30,8 @@ public class Main extends Application
 	{
 		progressIndicator = new ProgressIndicator();
 		progressIndicator.setProgress(-1.0);	// https://docs.oracle.com/javafx/2/ui_controls/progress.htm#CHDJJCFD
+		label = new Label();
+		label.setText("Processing...");
 		button = new Button();
 		button.setText("Next step");
 		button.setOnAction( new MyHandler(stage) );
@@ -36,8 +39,10 @@ public class Main extends Application
 		
 		gridPane = new GridPane();
 		gridPane.add(progressIndicator, 0, 0);
-		gridPane.add(button, 0, 1);
+		gridPane.add(label, 0, 1);
+		gridPane.add(button, 0, 2);
 		gridPane.setAlignment(Pos.CENTER);
+		GridPane.setMargin(label, new Insets(20, 0, 0, 0));
 		GridPane.setMargin(button, new Insets(60, 0, 0, 0));
 		
 		scene = new Scene(gridPane, 400, 200);
@@ -46,6 +51,8 @@ public class Main extends Application
 		
 		backgroundThread = new BackgroundThread(button);
 		progressIndicator.progressProperty().bind( backgroundThread.progressProperty() );
+		label.textProperty().bind( backgroundThread.messageProperty() );
+		
 		thread = new Thread(backgroundThread);
 		thread.start();
 	}

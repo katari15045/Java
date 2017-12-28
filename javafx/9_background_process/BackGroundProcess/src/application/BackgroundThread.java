@@ -17,6 +17,8 @@ public class BackgroundThread extends Task<Boolean>
 	{
 		Integer count = 0;
 		
+		updateMessage("Processing...");
+		
 		while( count < 999999999 )
 		{
 			count = count + 1;
@@ -24,6 +26,7 @@ public class BackgroundThread extends Task<Boolean>
 		
 		button.setDisable(false);
 		updateProgress(1.0, 1.0); // https://docs.oracle.com/javafx/2/ui_controls/progress.htm#CHDJJCFD
+		updateMessage("Process Completed!");
 		
 		return true;
 	}
@@ -32,5 +35,11 @@ public class BackgroundThread extends Task<Boolean>
 	protected void updateProgress(double workDone, double max) 
 	{
 		super.updateProgress(workDone, max);
+	}
+	
+	@Override
+	protected void updateMessage(String message) 
+	{
+		super.updateMessage(message);
 	}
 }
