@@ -31,7 +31,6 @@ public class Main extends Application
 		progressIndicator = new ProgressIndicator();
 		progressIndicator.setProgress(-1.0);	// https://docs.oracle.com/javafx/2/ui_controls/progress.htm#CHDJJCFD
 		label = new Label();
-		label.setText("Processing...");
 		button = new Button();
 		button.setText("Next step");
 		button.setOnAction( new MyHandler(stage) );
