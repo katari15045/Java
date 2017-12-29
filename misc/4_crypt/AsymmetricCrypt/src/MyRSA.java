@@ -1,6 +1,8 @@
-// Tutorial -> To generate key Pair and store them :  https://www.javamex.com/tutorials/cryptography/rsa_encryption.shtml
-//	    -> To get public key from a file : https://stackoverflow.com/questions/18757114/java-security-rsa-public-key-private-key-code-issue
-
+/* 
+ *	To generate key Pair and store them :  https://www.javamex.com/tutorials/cryptography/rsa_encryption.shtml
+ *  To encrypt and decrypt data : http://www.informit.com/articles/article.aspx?p=170967&seqNum=4
+ *  To get public key from a file : https://stackoverflow.com/questions/18757114/java-security-rsa-public-key-private-key-code-issue
+*/
 import java.security.PublicKey;
 import java.io.InputStream;
 import java.io.FileInputStream;
@@ -11,6 +13,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyFactory;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 
@@ -24,7 +27,8 @@ public class MyRSA
 {
 	private static KeyPair keyPair;
 	
-	private static String algo = "RSA";
+	private static String algoFull = "RSA/ECB/PKCS1PADDING";
+	private static String algoHalf = "RSA";
 	private static int keySize = 8192;
 
 	public static void start()
@@ -34,17 +38,17 @@ public class MyRSA
 		//getPublicKey("public.key");
 	}
 	
-	public static byte[] encryptWithPubKey(byte[] plainText)
+	public static String encryptWithPubKey(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] encryptedText = null;
 		
 		try
 		{
-			cipher = Cipher.getInstance(algo);
+			cipher = Cipher.getInstance(algoFull);
 			cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
 			
-			encryptedText = cipher.doFinal(plainText);
+			encryptedText = cipher.doFinal( plainText.getBytes() );
 		}
 		
 		catch(Exception e)
@@ -52,20 +56,20 @@ public class MyRSA
 			e.printStackTrace();
 		}
 		
-		return encryptedText;
+		return Base64.getEncoder().encodeToString(encryptedText);
 	}
 	
-	public static byte[] decryptWithPrivKey(byte[] encryptedData)
+	public static String decryptWithPrivKey(String encryptedData)
 	{
 		Cipher cipher = null;
 		byte[] decryptedText = null;
 		
 		try
 		{
-			cipher = Cipher.getInstance(algo);
+			cipher = Cipher.getInstance(algoFull);
 			cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
 			
-			decryptedText = cipher.doFinal(encryptedData);
+			decryptedText = cipher.doFinal( Base64.getDecoder().decode( encryptedData.getBytes() ) );
 		}
 		
 		catch(Exception e)
@@ -73,7 +77,7 @@ public class MyRSA
 			e.printStackTrace();
 		}
 		
-		return decryptedText;
+		return new String(decryptedText);
 	}
 	
 	private static KeyPair generateKeyPair()
@@ -83,7 +87,7 @@ public class MyRSA
 
 		try
 		{
-			generator = KeyPairGenerator.getInstance(algo);
+			generator = KeyPairGenerator.getInstance(algoHalf);
 			generator.initialize(keySize);
 			keyPair = generator.genKeyPair();
 		}
@@ -104,7 +108,7 @@ public class MyRSA
 
 		try
 		{
-			factory = KeyFactory.getInstance(algo);
+			factory = KeyFactory.getInstance(algoHalf);
 			pubKeySpec = factory.getKeySpec( keyPair.getPublic(), RSAPublicKeySpec.class );
 			privKeySpec = factory.getKeySpec( keyPair.getPrivate(), RSAPrivateKeySpec.class );
 
@@ -164,7 +168,7 @@ public class MyRSA
 					
 			modulus = (BigInteger)oin.readObject();
 			exponent = (BigInteger)oin.readObject();
-			factory = KeyFactory.getInstance(algo);
+			factory = KeyFactory.getInstance(algoHalf);
 			publicKey = factory.generatePublic( new RSAPublicKeySpec(modulus, exponent) );
 		}
 
