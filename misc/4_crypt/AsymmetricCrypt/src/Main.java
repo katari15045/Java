@@ -9,9 +9,9 @@ public class Main
 		
 		plainText = "All is well";
 		MyRSA.start();
-		encryptedData = MyRSA.encryptWithPubKey(plainText);
-		decryptedData = MyRSA.decryptWithPrivKey(encryptedData);
+		encryptedData = MyRSA.encryptWithPrivKey(plainText);
+		decryptedData = MyRSA.decryptWithPubKey(encryptedData);
 		
-		System.out.println(decryptedData);
+		System.out.println("Decrypted data -> " + decryptedData);
 	}
 }
