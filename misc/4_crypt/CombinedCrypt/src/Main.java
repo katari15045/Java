@@ -1,3 +1,5 @@
+import java.util.Base64;
+
 import javax.crypto.SecretKey;
 
 public class Main 
@@ -5,11 +7,10 @@ public class Main
 	private static MyRSA rsa = null;
 	private static MyAES aes = null;
 	
-	private static String encryptedSymKey = null;
-	private static String encryptedPlainText = null;
-	
 	public static void main(String[] args)
 	{
+		String encrSymKey = null;		
+		String encryptedPlainText = null;
 		String plainText = null;
 		String decryptedText = null;
 		SecretKey symKey = null;
@@ -21,8 +22,10 @@ public class Main
 		rsa.start();
 		aes.start();
 		
-		encryptedSymKey = aes.encryptSymKeyWithPubKey( rsa.getPublicKey() );
-		symKey = rsa.decryptSymKeyWithPrivKey(encryptedSymKey);
+		encrSymKey = aes.encryptSymKeyWithPubKey( rsa.getPublicKey() );
+		System.out.println( "encr_sym_key : " + Base64.getDecoder().decode(encrSymKey).length + " bytes");
+		
+		symKey = rsa.decryptSymKeyWithPrivKey(encrSymKey);
 		
 		encryptedPlainText = aes.encrypt(plainText);
 		decryptedText = aes.decrypt(encryptedPlainText, symKey);

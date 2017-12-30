@@ -11,6 +11,7 @@ import java.io.BufferedInputStream;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
 import java.security.KeyFactory;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
@@ -32,13 +33,13 @@ public class MyRSA
 	private String algo = null;
 	private int keySize = 0;
 
-	public MyRSA()
+	MyRSA()
 	{
 		algo = "RSA";
 		keySize = 3072;
 	}
 	
-	public void start()
+	void start()
 	{
 		
 		keyPair = generateKeyPair();
@@ -46,7 +47,7 @@ public class MyRSA
 		//getPublicKey("public.key");
 	}
 	
-	public String encryptWithPubKey(String plainText)
+	String encryptWithPubKey(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] encryptedText = null;
@@ -67,7 +68,7 @@ public class MyRSA
 		return Base64.getEncoder().encodeToString(encryptedText);
 	}
 	
-	public String encryptWithPrivKey(String plainText)
+	String encryptWithPrivKey(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] encryptedBytes = null;
@@ -87,7 +88,7 @@ public class MyRSA
 		return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
 	
-	public String decryptWithPrivKey(String encryptedData)
+	String decryptWithPrivKey(String encryptedData)
 	{
 		Cipher cipher = null;
 		byte[] decryptedText = null;
@@ -107,7 +108,7 @@ public class MyRSA
 		return Base64.getEncoder().encodeToString(decryptedText);
 	}
 	
-	public String decryptWithPubKey(String encryptedData)
+	String decryptWithPubKey(String encryptedData)
 	{
 		Cipher cipher = null;
 		byte[] decryptedText = null;
@@ -127,12 +128,23 @@ public class MyRSA
 		return new String(decryptedText);
 	}
 	
-	public SecretKey decryptSymKeyWithPrivKey(String encryptedSymKey)
+	SecretKey decryptSymKeyWithPrivKey(String encryptedSymKey)
 	{
 		String decryptedkeyStr = null;
 		byte[] keyBytes = null;
 		
 		decryptedkeyStr = decryptWithPrivKey(encryptedSymKey);
+		keyBytes = Base64.getDecoder().decode(decryptedkeyStr);
+		
+		return new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
+	}
+	
+	SecretKey decryptSymKeyWithPubKey(String encryptedSymKey)
+	{
+		String decryptedkeyStr = null;
+		byte[] keyBytes = null;
+		
+		decryptedkeyStr = decryptWithPubKey(encryptedSymKey);
 		keyBytes = Base64.getDecoder().decode(decryptedkeyStr);
 		
 		return new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
@@ -210,7 +222,7 @@ public class MyRSA
 		}
 	}
 
-	public PublicKey getPublicKey(String fileName)
+	PublicKey getPublicKey(String fileName)
 	{
 		InputStream inputStream = null;
 		ObjectInputStream oin = null;	
@@ -251,12 +263,17 @@ public class MyRSA
 		return publicKey;
 	}
 	
-	public PublicKey getPublicKey()
+	PublicKey getPublicKey()
 	{
 		return keyPair.getPublic();
 	}
 	
-	public void setKeySize(int keySize)
+	 PrivateKey getPrivateKey()
+	 {
+		return keyPair.getPrivate();
+	 }
+	
+	void setKeySize(int keySize)
 	{
 		this.keySize = keySize;
 	}

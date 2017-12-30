@@ -1,6 +1,7 @@
 // Tutorial -> https://www.quickprogrammingtips.com/java/how-to-encrypt-and-decrypt-data-in-java-using-aes-algorithm.html
 
 import java.lang.Exception;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
 
@@ -14,18 +15,18 @@ public class MyAES
 	private int keySize = 0;
 	private SecretKey key;
 
-	public MyAES()
+	MyAES()
 	{
 		algo = "AES";
 		keySize = 256;
 	}
 	
-	public void start()
+	void start()
 	{
 		key = generateKey();
 	}
 
-	public String decrypt(String cipherText)
+	String decrypt(String cipherText)
 	{
 		Cipher cipher = null;
 		byte[] decryptedTextBytes = null;
@@ -45,7 +46,7 @@ public class MyAES
 		return new String(decryptedTextBytes);
 	}
 	
-	public String decrypt(String cipherText, SecretKey symKey)
+	String decrypt(String cipherText, SecretKey symKey)
 	{
 		Cipher cipher = null;
 		byte[] decryptedTextBytes = null;
@@ -64,8 +65,8 @@ public class MyAES
 
 		return new String(decryptedTextBytes);
 	}
-
-	public String encryptSymKeyWithPubKey(PublicKey publicKey)
+	
+	String encryptSymKeyWithPubKey(PublicKey publicKey)
 	{
 		Cipher cipher = null;
 		byte[] encryptedBytes = null;
@@ -85,7 +86,27 @@ public class MyAES
 		return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
 	
-	public String encrypt(String plainText)
+	String encryptSymKeyWithPrivKey(PrivateKey privKey)
+	{
+		Cipher cipher = null;
+		byte[] encryptedBytes = null;
+		
+		try
+		{
+			cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, privKey);
+			encryptedBytes = cipher.doFinal( key.getEncoded() );
+		}
+		
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return Base64.getEncoder().encodeToString(encryptedBytes);
+	}
+	
+	String encrypt(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] cipherTextBytes = null;
@@ -125,7 +146,7 @@ public class MyAES
 		return key;
 	}
 	
-	public void setKeySize(int keySize)
+	void setKeySize(int keySize)
 	{
 		this.keySize = keySize;
 	}
