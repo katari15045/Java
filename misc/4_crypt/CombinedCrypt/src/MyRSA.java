@@ -16,6 +16,8 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import java.security.spec.RSAPrivateKeySpec;
 import java.io.ObjectOutputStream;
@@ -25,20 +27,26 @@ import java.lang.Exception;
 
 public class MyRSA
 {
-	private static KeyPair keyPair;
+	private KeyPair keyPair;
 	
-	private static String algo = "RSA";
-	private static String signAlgo = "NONEwithRSA";
-	private static int keySize = 8192;
+	private String algo = null;
+	private int keySize = 0;
 
-	public static void start()
+	public MyRSA()
 	{
+		algo = "RSA";
+		keySize = 3072;
+	}
+	
+	public void start()
+	{
+		
 		keyPair = generateKeyPair();
 		//storeKeys(keyPair);
 		//getPublicKey("public.key");
 	}
 	
-	public static String encryptWithPubKey(String plainText)
+	public String encryptWithPubKey(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] encryptedText = null;
@@ -59,7 +67,7 @@ public class MyRSA
 		return Base64.getEncoder().encodeToString(encryptedText);
 	}
 	
-	public static String encryptWithPrivKey(String plainText)
+	public String encryptWithPrivKey(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] encryptedBytes = null;
@@ -79,7 +87,7 @@ public class MyRSA
 		return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
 	
-	public static String decryptWithPrivKey(String encryptedData)
+	public String decryptWithPrivKey(String encryptedData)
 	{
 		Cipher cipher = null;
 		byte[] decryptedText = null;
@@ -96,10 +104,10 @@ public class MyRSA
 			e.printStackTrace();
 		}
 		
-		return new String(decryptedText);
+		return Base64.getEncoder().encodeToString(decryptedText);
 	}
 	
-	public static String decryptWithPubKey(String encryptedData)
+	public String decryptWithPubKey(String encryptedData)
 	{
 		Cipher cipher = null;
 		byte[] decryptedText = null;
@@ -119,7 +127,18 @@ public class MyRSA
 		return new String(decryptedText);
 	}
 	
-	private static KeyPair generateKeyPair()
+	public SecretKey decryptSymKeyWithPrivKey(String encryptedSymKey)
+	{
+		String decryptedkeyStr = null;
+		byte[] keyBytes = null;
+		
+		decryptedkeyStr = decryptWithPrivKey(encryptedSymKey);
+		keyBytes = Base64.getDecoder().decode(decryptedkeyStr);
+		
+		return new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
+	}
+	
+	private KeyPair generateKeyPair()
 	{
 		KeyPairGenerator generator = null;
 		KeyPair keyPair = null;
@@ -139,7 +158,7 @@ public class MyRSA
 		return keyPair;
 	}
 
-	private static void storeKeys(KeyPair keyPair)
+	private void storeKeys(KeyPair keyPair)
 	{
 		KeyFactory factory = null;
 		RSAPublicKeySpec pubKeySpec = null;
@@ -161,7 +180,7 @@ public class MyRSA
 		}
 	}
 
-	private static void writeKeyToFile(String fileName, BigInteger modulus, BigInteger exponent)
+	private void writeKeyToFile(String fileName, BigInteger modulus, BigInteger exponent)
 	{
 		ObjectOutputStream oos = null;
 
@@ -191,7 +210,7 @@ public class MyRSA
 		}
 	}
 
-	public static PublicKey getPublicKey(String fileName)
+	public PublicKey getPublicKey(String fileName)
 	{
 		InputStream inputStream = null;
 		ObjectInputStream oin = null;	
@@ -230,5 +249,15 @@ public class MyRSA
 		}
 
 		return publicKey;
+	}
+	
+	public PublicKey getPublicKey()
+	{
+		return keyPair.getPublic();
+	}
+	
+	public void setKeySize(int keySize)
+	{
+		this.keySize = keySize;
 	}
 }

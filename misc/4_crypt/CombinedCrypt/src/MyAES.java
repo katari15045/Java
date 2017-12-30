@@ -1,6 +1,7 @@
 // Tutorial -> https://www.quickprogrammingtips.com/java/how-to-encrypt-and-decrypt-data-in-java-using-aes-algorithm.html
 
 import java.lang.Exception;
+import java.security.PublicKey;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -9,16 +10,22 @@ import javax.crypto.SecretKey;
 
 public class MyAES
 {
-	private static String algo = "AES";
-	private static int keySize = 256;
-	private static SecretKey key;
+	private String algo = null;
+	private int keySize = 0;
+	private SecretKey key;
 
-	public static void start()
+	public MyAES()
+	{
+		algo = "AES";
+		keySize = 256;
+	}
+	
+	public void start()
 	{
 		key = generateKey();
 	}
 
-	public static String decrypt(String cipherText)
+	public String decrypt(String cipherText)
 	{
 		Cipher cipher = null;
 		byte[] decryptedTextBytes = null;
@@ -37,8 +44,48 @@ public class MyAES
 
 		return new String(decryptedTextBytes);
 	}
+	
+	public String decrypt(String cipherText, SecretKey symKey)
+	{
+		Cipher cipher = null;
+		byte[] decryptedTextBytes = null;
 
-	public static String encrypt(String plainText)
+		try
+		{
+			cipher = Cipher.getInstance(algo);
+			cipher.init(Cipher.DECRYPT_MODE, symKey);
+			decryptedTextBytes = cipher.doFinal( Base64.getDecoder().decode( cipherText.getBytes() ) );
+		}
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return new String(decryptedTextBytes);
+	}
+
+	public String encryptSymKeyWithPubKey(PublicKey publicKey)
+	{
+		Cipher cipher = null;
+		byte[] encryptedBytes = null;
+		
+		try
+		{
+			cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			encryptedBytes = cipher.doFinal( key.getEncoded() );
+		}
+		
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return Base64.getEncoder().encodeToString(encryptedBytes);
+	}
+	
+	public String encrypt(String plainText)
 	{
 		Cipher cipher = null;
 		byte[] cipherTextBytes = null;
@@ -58,7 +105,7 @@ public class MyAES
 		return Base64.getEncoder().encodeToString(cipherTextBytes);
 	}
 
-	private static SecretKey generateKey()
+	private SecretKey generateKey()
 	{
 		KeyGenerator generator = null;
 		SecretKey key = null;
@@ -76,5 +123,10 @@ public class MyAES
 		}
 
 		return key;
+	}
+	
+	public void setKeySize(int keySize)
+	{
+		this.keySize = keySize;
 	}
 }
