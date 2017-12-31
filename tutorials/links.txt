@@ -1,1 +1,7 @@
+Switch b/w multiple java versions
+----------------------------------
+https://askubuntu.com/a/740782/556271
+
+misc
+-----
 https://stackoverflow.com/questions/15154158/why-collections-sort-uses-merge-sort-instead-of-quicksort?rq=1
