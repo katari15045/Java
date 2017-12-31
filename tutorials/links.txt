@@ -1,6 +1,7 @@
 Install latest java JDK
 -----------------------
 Go to http://www.oracle.com/technetwork/java/javase/downloads/index.html and download latest JDK
+Extract the downloaded tar.gz at /usr/lib/jvm
 Follow the instructions at https://askubuntu.com/a/764914/556271
 
 Switch b/w multiple java versions
