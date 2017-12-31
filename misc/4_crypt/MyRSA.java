@@ -127,6 +127,26 @@ public class MyRSA
 		
 		return new String(decryptedText);
 	}
+
+	String decryptWithPubKey(String encryptedData, PublicKey pubKey)
+        {
+                Cipher cipher = null;
+                byte[] decryptedText = null;
+
+                try
+                {
+                        cipher = Cipher.getInstance(algo);
+                        cipher.init(Cipher.DECRYPT_MODE, pubKey);
+                        decryptedText = cipher.doFinal( Base64.getDecoder().decode( encryptedData.getBytes() ) );
+                }
+
+                catch(Exception e)
+                {
+                        e.printStackTrace();
+                }
+
+                return new String(decryptedText);
+        }
 	
 	SecretKey decryptSymKeyWithPrivKey(String encryptedSymKey)
 	{
