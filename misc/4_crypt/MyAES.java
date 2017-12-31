@@ -150,4 +150,23 @@ public class MyAES
 	{
 		this.keySize = keySize;
 	}
+	
+	SecretKey getSymKey()
+	{
+		return key;
+	}	
+	
+	String getSymKeyInStr()
+	{
+		return Base64.getEncoder().encodeToString( key.getEncoded() );
+	}
 }
+
+
+
+
+
+
+
+
+

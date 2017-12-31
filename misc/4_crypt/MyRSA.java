@@ -267,11 +267,21 @@ public class MyRSA
 	{
 		return keyPair.getPublic();
 	}
+
+	String getPublicKeyInStr()
+	{
+		return Base64.getEncoder().encodeToString( keyPair.getPublic().getEncoded() );
+	}
 	
-	 PrivateKey getPrivateKey()
-	 {
+	PrivateKey getPrivateKey()
+	{
 		return keyPair.getPrivate();
-	 }
+	}
+
+	String getPrivateKeyInStr()
+	{
+		return Base64.getEncoder().encodeToString( keyPair.getPrivate().getEncoded() );
+	}
 	
 	void setKeySize(int keySize)
 	{
