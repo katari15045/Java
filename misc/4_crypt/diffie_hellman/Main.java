@@ -26,8 +26,9 @@ public class Main
 		srcSecret = dhSrc.end( Base64.getDecoder().decode(dstPubKeyStr) );
 		dstSecret = dhDst.end();
 
-		srcSecretKeySpec = new SecretKeySpec(srcSecret, 0, 16, algo);
-		dstSecretKeySpec = new SecretKeySpec(dstSecret, 0, 16, algo);
+		// [0, 32] means 1st 32 bytes i.e 32*8 bits = 256-bit symmetric Key
+		srcSecretKeySpec = new SecretKeySpec(srcSecret, 0, 32, algo);
+		dstSecretKeySpec = new SecretKeySpec(dstSecret, 0, 32, algo);
 
 		testDH(srcSecretKeySpec, dstSecretKeySpec);
 	}
