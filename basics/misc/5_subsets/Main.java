@@ -10,14 +10,17 @@ public class Main
 		ArrayList<Integer> temp = null;
 		int currentIndex = 0;
 		int currentNum;
+		int countSets = 0;
 		
 		originalList = new ArrayList<>();
 		originalList.add(1);
 		originalList.add(2);
 		originalList.add(3);
-		originalList.add(4);
-		originalList.add(5);
 	
+		System.out.println("Subsets of " + originalList + " : \n");
+		System.out.println( new ArrayList() );
+		countSets = countSets + 1;
+
 		while( currentIndex < originalList.size() )
 		{
 			currentNum = originalList.get(currentIndex);
@@ -28,15 +31,21 @@ public class Main
 
 			while(true)			
 			{
-				retList = getNextArrays(retList.get(0), originalList);
-				System.out.println(retList);		
-				break;
+				if( retList.isEmpty() )
+				{
+					break;
+				}
+		
+				ArrayList<Integer> tempTwo = retList.remove(0);
+				System.out.println(tempTwo);
+				countSets = countSets + 1;
+				retList.addAll( getNextArrays(tempTwo, originalList) );
 			}
 
 			currentIndex = currentIndex + 1;
-			break;
 		}
-
+		
+		System.out.println("\nTotal sets : " + countSets);
 	}
 
 
