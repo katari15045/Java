@@ -6,7 +6,10 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		ArrayList<Integer> retList = null;
+		ArrayList< ArrayList<Integer> > retList = null;
+		ArrayList<Integer> temp = null;
+		int currentIndex = 0;
+		int currentNum;
 		
 		originalList = new ArrayList<>();
 		originalList.add(1);
@@ -15,19 +18,34 @@ public class Main
 		originalList.add(4);
 		originalList.add(5);
 	
-		retList = new ArrayList<Integer>();
-		retList.add(1);	
-		retList.add(3);
-	
-		retList = getNextArrays(retList, originalList);
-		System.out.println(retList);
+		while( currentIndex < originalList.size() )
+		{
+			currentNum = originalList.get(currentIndex);
+			retList = new ArrayList<>();
+			temp = new ArrayList<>();
+			temp.add(currentNum);
+			retList.add(temp);
+
+			while(true)			
+			{
+				retList = getNextArrays(retList.get(0), originalList);
+				System.out.println(retList);		
+				break;
+			}
+
+			currentIndex = currentIndex + 1;
+			break;
+		}
+
 	}
 
-	private static ArrayList<Integer> getNextArrays(ArrayList<Integer> subArray, ArrayList<Integer> wholeList)
+
+	private static ArrayList< ArrayList<Integer> > getNextArrays(ArrayList<Integer> subArray, ArrayList<Integer> wholeList)
 	{
 		int subLastNum = subArray.get( subArray.size()-1 );
 		int currentIndex = 0;
-		ArrayList<Integer> listToRet = new ArrayList<>();
+		ArrayList<Integer> nextList = new ArrayList<>();
+		ArrayList< ArrayList<Integer> > retList = new ArrayList<>();
 
 		while( currentIndex < wholeList.size() )		
 		{
@@ -43,10 +61,32 @@ public class Main
 
 		while( currentIndex < wholeList.size() )
 		{
-			listToRet.add( wholeList.get(currentIndex) );
+			nextList.add( wholeList.get(currentIndex) );
 			currentIndex = currentIndex + 1;
 		}
 
-		return listToRet;
+		currentIndex = 0;
+
+		while( currentIndex < nextList.size() )
+		{
+			ArrayList<Integer> newList = new ArrayList<>( subArray );			
+			newList.add( nextList.get(currentIndex) );
+			retList.add(newList);
+
+			currentIndex = currentIndex + 1;
+		}
+
+		return retList;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
