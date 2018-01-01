@@ -2,26 +2,36 @@ import java.util.ArrayList;
 
 public class Main
 {
-	private static int[] array = {2, 3, 4, 5};
+	private static ArrayList<Integer> originalList;
 
 	public static void main(String[] args)
 	{
 		ArrayList<Integer> retList = null;
-		int[] temp = {2};
 		
-		retList = getNextArrays(temp, array);
+		originalList = new ArrayList<>();
+		originalList.add(1);
+		originalList.add(2);
+		originalList.add(3);
+		originalList.add(4);
+		originalList.add(5);
+	
+		retList = new ArrayList<Integer>();
+		retList.add(1);	
+		retList.add(3);
+	
+		retList = getNextArrays(retList, originalList);
 		System.out.println(retList);
 	}
 
-	private static ArrayList<Integer> getNextArrays(int[] subArray, int[] wholeArray)
+	private static ArrayList<Integer> getNextArrays(ArrayList<Integer> subArray, ArrayList<Integer> wholeList)
 	{
-		int subLastNum = subArray[ subArray.length-1 ];
+		int subLastNum = subArray.get( subArray.size()-1 );
 		int currentIndex = 0;
 		ArrayList<Integer> listToRet = new ArrayList<>();
 
-		while( currentIndex < wholeArray.length )		
+		while( currentIndex < wholeList.size() )		
 		{
-			if( wholeArray[currentIndex] == subLastNum )			
+			if( wholeList.get(currentIndex) == subLastNum )			
 			{
 				break;
 			}
@@ -31,9 +41,9 @@ public class Main
 
 		currentIndex = currentIndex + 1;
 
-		while( currentIndex < wholeArray.length )
+		while( currentIndex < wholeList.size() )
 		{
-			listToRet.add( wholeArray[currentIndex] );
+			listToRet.add( wholeList.get(currentIndex) );
 			currentIndex = currentIndex + 1;
 		}
 
