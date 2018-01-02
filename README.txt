@@ -43,6 +43,11 @@ $ unzip sample.jar -----> extracts all files in the Java Archive
 2. Nothing comes for free. Sometimes(https://www.codechef.com/problems/CHOPRT), you get Runtime Exception with BufferedReader. Why? As it uses bigger buffer it may run out of Main memory(RAM).
 3. If you want you can reduce the size of the buffer in BufferedReader by passing new buffer size as second argument while initializing it.
 
-7. misc
+7. Compile and run with external jars
+-------------------------------------
+Compile with javac -cp .:<path to all external jars> Main.java
+Run with java -cp .:<path to all external jars> Main
+
+8. misc
 -------
 https://stackoverflow.com/questions/15154158/why-collections-sort-uses-merge-sort-instead-of-quicksort?rq=1
