@@ -23,7 +23,7 @@ public class Main
 
 		srcPubKeyStr = dhSrc.start();
 		dstPubKeyStr = dhDst.start(srcPubKeyStr);
-		srcSecret = dhSrc.end( Base64.getDecoder().decode(dstPubKeyStr) );
+		srcSecret = dhSrc.end(dstPubKeyStr);
 		dstSecret = dhDst.end();
 
 		// [0, 32] means 1st 32 bytes i.e 32*8 bits = 256-bit symmetric Key
