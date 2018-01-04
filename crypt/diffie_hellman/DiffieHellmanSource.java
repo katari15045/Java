@@ -106,7 +106,8 @@ public class DiffieHellmanSource
 	{
 		byte[] pubKeyBytes = null;
 		
-		pubKeyBytes = keyPair.getPublic().getEncoded();
+		pubKeyBytes = keyPair.getPublic().getEncoded();	
+		System.out.println("dh_pub_key : " + pubKeyBytes.length + " bytes!");
 		return Base64.getEncoder().encodeToString(pubKeyBytes);
 	}
 }
