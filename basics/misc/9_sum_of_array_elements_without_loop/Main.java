@@ -7,6 +7,7 @@ public class Main{
 		arr.add(2);
 		arr.add(3);
 		System.out.println(sum(arr, 0));
+	}
 
 	private static int sum(ArrayList<Integer> arr, int ind){
 		if(ind == (arr.size()-1)){
