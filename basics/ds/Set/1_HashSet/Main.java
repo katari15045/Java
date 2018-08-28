@@ -20,8 +20,9 @@ public class Main{
 		if(set.contains(1)){
 			System.out.println("1 is present");
 		}
-		if(set.contains(4)){
-			System.out.println("4 is present");
+		set.remove(1);
+		if(set.contains(1)){
+			System.out.println("1 is present");
 		}
 	}
 }
